@@ -63,9 +63,9 @@ app.get("/update", async (c) => {
 
 // 获取最新稳定版的信息
 app.get("/latest", async (c) => {
-  const release = await getReleases(true);
+  const releases = await getReleases(true);
 
-  return c.json(release);
+  return c.json(releases[0]);
 });
 
 // 获取指定版本的指定平台的下载链接
