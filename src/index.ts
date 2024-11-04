@@ -1,11 +1,15 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { Release } from "./types";
-import { EXTNAME, PLATFORM, PROXY_URL } from "./constants";
+import { EXTNAME, PLATFORM } from "./constants";
 
 const app = new Hono();
 
 app.use("/*", cors());
+
+const getProxyURL = (url: string) => {
+  return `https://gh-proxy.ecopaste.cn/${url}`;
+};
 
 const getReleases = async (latest = false) => {
   let url = "https://api.github.com/repos/EcoPasteHub/EcoPaste/releases";
@@ -26,7 +30,7 @@ const getReleases = async (latest = false) => {
 
   for (const release of releases) {
     release.assets = release.assets.filter((asset) => {
-      asset.browser_download_url = `${PROXY_URL}/${asset.browser_download_url}`;
+      asset.browser_download_url = getProxyURL(asset.browser_download_url);
 
       return Object.values(EXTNAME).some((extname) => {
         return asset.name.endsWith(extname);
@@ -56,9 +60,11 @@ app.get("/update", async (c) => {
     version = releases.find(({ name }) => !name.includes("-"))!.name;
   }
 
-  return c.redirect(
-    `${PROXY_URL}/https://github.com/EcoPasteHub/EcoPaste/releases/download/${version}/latest.json`
+  const url = getProxyURL(
+    `https://github.com/EcoPasteHub/EcoPaste/releases/download/${version}/latest.json`
   );
+
+  return c.redirect(url);
 });
 
 // 获取最新稳定版的信息

@@ -1,5 +1,3 @@
-export const PROXY_URL = "https://gh-proxy.com";
-
 export const PLATFORM = {
   WINDOWS_X86: "windows-x86",
   WINDOWS_X64: "windows-x64",
