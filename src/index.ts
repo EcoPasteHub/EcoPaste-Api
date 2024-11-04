@@ -52,7 +52,7 @@ app.get("/", async (c) => {
 app.get("/update", async (c) => {
   const releases = await getReleases();
 
-  const joinBeta = c.res.headers.get("join-beta");
+  const joinBeta = c.req.header("join-beta");
 
   let version = releases[0].name;
 
