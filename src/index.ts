@@ -8,7 +8,7 @@ const app = new Hono();
 app.use("/*", cors());
 
 const getProxyURL = (url: string) => {
-  return `https://gh-proxy.ecopaste.cn/${url}`;
+  return `https://gh-proxy.com/${url}`;
 };
 
 const getReleases = async (latest = false) => {
